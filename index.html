@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150vh;
+    margin: 0;
+    flex-direction: column;
+    background-color: #f0f0f0;
+  }
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    background-color: DodgerBlue;
+    width: 550px;
+    height: 730px;
+    border: 5px solid DodgerBlue;
+  }
+
+  .left-column {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #f1f1f1;
+    width: 245px;
+    height: 680px;
+    padding: 25px;
+    text-align: center;
+    font-size: 30px;
+    margin-right: 5px;
+    overflow: auto;
+  }
+
+  .left-column input[type="checkbox"] {
+    display: inline-block;
+    width: auto;
+    margin-right: 5px;
+  }
+
+  .left-column label {
+    font-size: 12px;
+    text-align: left;
+    display: block;
+  }
+
+  .left-column input, .left-column select, .left-column textarea {
+    width: 115%;
+    margin: 5px 0;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .right-column > div {
+    background-color: #f1f1f1;
+    width: 50px;
+    padding: 25px;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 5px;
+  }
+
+  .right-column > div:first-child {
+    background-color: #f1f1f1;
+    width: 180px;
+    flex-grow: 2;
+    padding: 35px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .right-column > div:last-child {
+    background-color: #f1f1f1;
+    width: 180px;
+    flex-grow: 2;
+    padding: 35px;
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 0;
+  }
+
+  .submit-btn {
+    width: 115%;
+    padding: 8px;
+    background-color: DodgerBlue;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  h5 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+  <img src="Screenshot 2025-03-23 043535.png" alt="Logo" style="width:50px;height:50px;border-radius:50%;margin-bottom:0px;">
+  <h1>Netbook</h1>
+  <div class="flex-container">
+    <div class="left-column">
+      <form>
+        <h5>Registration Form</h5>
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" name="fullName" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required>
+
+        <label for="country">Country:</label>
+        <select id="country" name="country">
+          <option value="" disabled selected>Select your country</option>
+          <option value="usa">USA</option>
+          <option value="uk">UK</option>
+          <option value="canada">Canada</option>
+          <option value="bangladesh">Bangladesh</option>
+          <option value="australia">Australia</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label>Gender:</label>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="radio" id="male" name="gender" value="male">
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="gender" value="female">
+          <label for="female">Female</label>
+          <input type="radio" id="other" name="gender" value="other">
+          <label for="other">Other</label>
+        </div>
+
+        <label for="color">Favorite Color:</label>
+        <input type="color" id="color" name="color">
+
+        <label for="opinion">Your Opinion:</label>
+        <textarea id="opinion" name="opinion" rows="2" placeholder="Share your thoughts..."></textarea>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="checkbox" id="terms" name="terms" required>
+          <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
+        </div>
+
+        <button type="submit" class="submit-btn">Register</button>
+      </form>
+    </div>
+    <div class="right-column">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</body>
+</html>
