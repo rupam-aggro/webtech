@@ -1,106 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 150vh;
-    margin: 0;
-    flex-direction: column;
-    background-color: #f0f0f0;
-  }
-  .flex-container {
-    display: flex;
-    flex-direction: row;
-    background-color: DodgerBlue;
-    width: 550px;
-    height: 730px;
-    border: 5px solid DodgerBlue;
-  }
+  <title>Registration Form</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150vh;
+      margin: 0;
+      flex-direction: column;
+      background-color: #f0f0f0;
+    }
 
-  .left-column {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
-    background-color: #f1f1f1;
-    width: 245px;
-    height: 680px;
-    padding: 25px;
-    text-align: center;
-    font-size: 30px;
-    margin-right: 5px;
-    overflow: auto;
-  }
+    .flex-container {
+      display: flex;
+      flex-direction: row;
+      background-color: DodgerBlue;
+      width: 550px;
+      height: 730px;
+      border: 5px solid DodgerBlue;
+    }
 
-  .left-column input[type="checkbox"] {
-    display: inline-block;
-    width: auto;
-    margin-right: 5px;
-  }
+    .left-column {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: #5c7f86;
+      width: 245px;
+      height: 680px;
+      padding: 25px;
+      text-align: center;s
+      font-size: 30px;
+      margin-right: 5px;
+      overflow: auto;
+    }
 
-  .left-column label {
-    font-size: 12px;
-    text-align: left;
-    display: block;
-  }
+    .left-column input[type="checkbox"] {
+      display: inline-block;
+      width: auto;
+      margin-right: 5px;
+    }
 
-  .left-column input, .left-column select, .left-column textarea {
-    width: 115%;
-    margin: 5px 0;
-    padding: 5px;
-    box-sizing: border-box;
-  }
+    .left-column label {
+      font-size: 12px;
+      text-align: left;
+      display: block;
+    }
 
-  .right-column {
-    display: flex;
-    flex-direction: column;
-  }
+    .left-column input,
+    .left-column select,
+    .left-column textarea {
+      width: 115%;
+      margin: 5px 0;
+      padding: 5px;
+      box-sizing: border-box;
+    }
 
-  .right-column > div {
-    background-color: #f1f1f1;
-    width: 50px;
-    padding: 25px;
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 5px;
-  }
+    .right-column {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .right-column > div:first-child {
-    background-color: #f1f1f1;
-    width: 180px;
-    flex-grow: 2;
-    padding: 35px;
-    text-align: center;
-    font-size: 30px;
-  }
+    .right-column > div {
+      background-color: #f1f1f1;
+      width: 50px;
+      padding: 25px;
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
 
-  .right-column > div:last-child {
-    background-color: #f1f1f1;
-    width: 180px;
-    flex-grow: 2;
-    padding: 35px;
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 0;
-  }
+    .right-column > div:first-child,
+    .right-column > div:last-child {
+      background-color: #f1f1f1;
+      width: 180px;
+      flex-grow: 2;
+      padding: 35px;
+      text-align: center;
+      font-size: 30px;
+    }
 
-  .submit-btn {
-    width: 115%;
-    padding: 8px;
-    background-color: DodgerBlue;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
+    .submit-btn {
+      width: 115%;
+      padding: 8px;
+      background-color: DodgerBlue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-  h5 {
-    margin-top: 0px;
-    margin-bottom: 20px;
-  }
-</style>
+    h5 {
+      margin-top: 0px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <img src="Screenshot 2025-03-23 043535.png" alt="Logo" style="width:50px;height:50px;border-radius:50%;margin-bottom:0px;">
@@ -109,17 +104,27 @@
     <div class="left-column">
       <form>
         <h5>Registration Form</h5>
+
         <label for="fullName">Full Name:</label>
-        <input type="text" id="fullName" name="fullName" required>
+        <input type="text" id="fullName" name="fullName" required placeholder="Mehejabir Rahaman Rupam">
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@student\.aiub\.edu" placeholder="id@student.aiub.edu">
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required placeholder="8-character password">
 
         <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter password">
+
+      
+
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <input type="checkbox" id="showPass" onclick="togglePassword()">
+          <label for="showPass">Show Password</label>
+        </div>
+
 
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" required>
@@ -135,21 +140,23 @@
           <option value="other">Other</option>
         </select>
 
-        <label>Gender:</label>
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <input type="radio" id="male" name="gender" value="male">
-          <label for="male">Male</label>
-          <input type="radio" id="female" name="gender" value="female">
-          <label for="female">Female</label>
-          <input type="radio" id="other" name="gender" value="other">
-          <label for="other">Other</label>
-        </div>
+        <fieldset style="border:none; padding:0; margin:0;">
+          <legend style="font-size: 12px;">Gender:</legend>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+            <input type="radio" id="other" name="gender" value="other">
+            <label for="other">Other</label>
+          </div>
+        </fieldset>
 
         <label for="color">Favorite Color:</label>
         <input type="color" id="color" name="color">
 
         <label for="opinion">Your Opinion:</label>
-        <textarea id="opinion" name="opinion" rows="2" placeholder="Share your thoughts..."></textarea>
+        <textarea id="opinion" name="opinion" rows="2" placeholder="opinions?"></textarea>
 
         <div style="display: flex; gap: 10px; align-items: center;">
           <input type="checkbox" id="terms" name="terms" required>
@@ -164,5 +171,86 @@
       <div></div>
     </div>
   </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      const confirmPassword = document.getElementById("confirmPassword");
+      const type = password.type === "password" ? "text" : "password";
+      password.type = type;
+      confirmPassword.type = type;
+    }
+
+    document.querySelector("form").addEventListener("submit", function (e) {
+      const fullNameInput = document.getElementById("fullName");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const dobInput = document.getElementById("dob");
+
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      const dob = new Date(dobInput.value);
+
+      const nameRegex = /^[A-Za-z\s]+$/;
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@student\.aiub\.edu$/;
+      const uppercaseRegex = /[A-Z]/;
+      const numberRegex = /[0-9]/;
+      const symbolRegex = /[^A-Za-z0-9]/;
+
+      if (!nameRegex.test(fullName)) {
+        e.preventDefault();
+        alert("Full Name is invalid. It should not contain numbers or special characters.");
+        fullNameInput.focus();
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        e.preventDefault();
+        alert("Email is invalid. It must be a student email (e.g., yourID@student.aiub.edu).");
+        emailInput.focus();
+        return;
+      }
+
+      if (password.length !== 8) {
+        e.preventDefault();
+        alert("Password must be exactly 8 characters long.");
+        passwordInput.focus();
+        return;
+      }
+
+      if (!uppercaseRegex.test(password) || !numberRegex.test(password) || !symbolRegex.test(password)) {
+        e.preventDefault();
+        alert("Password must contain at least one uppercase letter, one number, and one special character.");
+        passwordInput.focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        alert("Passwords do not match.");
+        confirmPasswordInput.focus();
+        return;
+      }
+
+      const currentDate = new Date();
+      let age = currentDate.getFullYear() - dob.getFullYear();
+      const monthDiff = currentDate.getMonth() - dob.getMonth();
+      const dateDiff = currentDate.getDate() - dob.getDate();
+
+      if (monthDiff < 0 || (monthDiff === 0 && dateDiff < 0)) {
+        age--;
+      }
+
+      if (age < 18) {
+        e.preventDefault();
+        alert("You must be at least 18 years old to register.");
+        dobInput.focus();
+        return;
+      }
+    });
+  </script>
 </body>
 </html>
