@@ -21,21 +21,20 @@
       height: 730px;
       border: 5px solid DodgerBlue;
     }
-
     .left-column {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: flex-start;
-      background-color: #5c7f86;
-      width: 245px;
-      height: 680px;
-      padding: 25px;
-      text-align: center;s
-      font-size: 30px;
-      margin-right: 5px;
-      overflow: auto;
-    }
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #99b7c9;
+  width: 245px;
+  height: 680px;
+  padding: 25px;
+  text-align: left; 
+  font-size: 30px;
+  margin-right: 5px;
+  overflow-y: auto; 
+}
 
     .left-column input[type="checkbox"] {
       display: inline-block;
@@ -61,25 +60,25 @@
     .right-column {
       display: flex;
       flex-direction: column;
+      height: 730px;
+      width: 245px;
+      background-color: DodgerBlue;
+      justify-content: space-between;
     }
 
-    .right-column > div {
+    .right-column > div:first-child {
       background-color: #f1f1f1;
-      width: 50px;
+      height: 70%;
       padding: 25px;
-      text-align: center;
-      font-size: 30px;
       margin-bottom: 5px;
+      flex-grow: 2;
     }
 
-    .right-column > div:first-child,
     .right-column > div:last-child {
       background-color: #f1f1f1;
-      width: 180px;
-      flex-grow: 2;
-      padding: 35px;
-      text-align: center;
-      font-size: 30px;
+      height: 30%;
+      padding: 5px;
+      flex-grow: 1;
     }
 
     .submit-btn {
@@ -95,11 +94,24 @@
       margin-top: 0px;
       margin-bottom: 20px;
     }
+
+    .error-message {
+      color: red;
+      font-size: 10px;
+      margin: 2px 0 8px 0;
+      text-align: left; 
+    }
+
+    .input-error {
+      border: 2px solid red;
+    }
   </style>
 </head>
+
 <body>
   <img src="Screenshot 2025-03-23 043535.png" alt="Logo" style="width:50px;height:50px;border-radius:50%;margin-bottom:0px;">
   <h1>Netbook</h1>
+
   <div class="flex-container">
     <div class="left-column">
       <form>
@@ -107,27 +119,28 @@
 
         <label for="fullName">Full Name:</label>
         <input type="text" id="fullName" name="fullName" required placeholder="Mehejabir Rahaman Rupam">
+        <p id="fullNameError" class="error-message"></p>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@student\.aiub\.edu" placeholder="id@student.aiub.edu">
+        <p id="emailError" class="error-message"></p>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required placeholder="8-character password">
+        <p id="passwordError" class="error-message"></p>
 
         <label for="confirmPassword">Confirm Password:</label>
         <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter password">
-
-      
-
+        <p id="confirmPasswordError" class="error-message"></p>
 
         <div style="display: flex; gap: 10px; align-items: center;">
           <input type="checkbox" id="showPass" onclick="togglePassword()">
           <label for="showPass">Show Password</label>
         </div>
 
-
         <label for="dob">Date of Birth:</label>
         <input type="date" id="dob" name="dob" required>
+        <p id="dobError" class="error-message"></p>
 
         <label for="country">Country:</label>
         <select id="country" name="country">
@@ -141,7 +154,7 @@
         </select>
 
         <fieldset style="border:none; padding:0; margin:0;">
-          <legend style="font-size: 12px;">Gender:</legend>
+          <legend style="font-size: 12px; text-align: left;">Gender:</legend>
           <div style="display: flex; gap: 10px; align-items: center;">
             <input type="radio" id="male" name="gender" value="male">
             <label for="male">Male</label>
@@ -166,6 +179,7 @@
         <button type="submit" class="submit-btn">Register</button>
       </form>
     </div>
+
     <div class="right-column">
       <div></div>
       <div></div>
@@ -182,6 +196,12 @@
     }
 
     document.querySelector("form").addEventListener("submit", function (e) {
+      e.preventDefault(); // prevent form submit by default
+
+      // Reset previous errors
+      document.querySelectorAll(".error-message").forEach(p => p.innerText = "");
+      document.querySelectorAll("input, select, textarea").forEach(input => input.classList.remove("input-error"));
+
       const fullNameInput = document.getElementById("fullName");
       const emailInput = document.getElementById("email");
       const passwordInput = document.getElementById("password");
@@ -200,39 +220,34 @@
       const numberRegex = /[0-9]/;
       const symbolRegex = /[^A-Za-z0-9]/;
 
+      let hasError = false;
+
       if (!nameRegex.test(fullName)) {
-        e.preventDefault();
-        alert("Full Name is invalid. It should not contain numbers or special characters.");
-        fullNameInput.focus();
-        return;
+        document.getElementById("fullNameError").innerText = "Full Name should not contain numbers or special characters.";
+        fullNameInput.classList.add("input-error");
+        hasError = true;
       }
 
       if (!emailRegex.test(email)) {
-        e.preventDefault();
-        alert("Email is invalid. It must be a student email (e.g., yourID@student.aiub.edu).");
-        emailInput.focus();
-        return;
+        document.getElementById("emailError").innerText = "Must be a valid student email (example@student.aiub.edu).";
+        emailInput.classList.add("input-error");
+        hasError = true;
       }
 
       if (password.length !== 8) {
-        e.preventDefault();
-        alert("Password must be exactly 8 characters long.");
-        passwordInput.focus();
-        return;
-      }
-
-      if (!uppercaseRegex.test(password) || !numberRegex.test(password) || !symbolRegex.test(password)) {
-        e.preventDefault();
-        alert("Password must contain at least one uppercase letter, one number, and one special character.");
-        passwordInput.focus();
-        return;
+        document.getElementById("passwordError").innerText = "Password must be exactly 8 characters long.";
+        passwordInput.classList.add("input-error");
+        hasError = true;
+      } else if (!uppercaseRegex.test(password) || !numberRegex.test(password) || !symbolRegex.test(password)) {
+        document.getElementById("passwordError").innerText = "Password must contain uppercase, number, and special character.";
+        passwordInput.classList.add("input-error");
+        hasError = true;
       }
 
       if (password !== confirmPassword) {
-        e.preventDefault();
-        alert("Passwords do not match.");
-        confirmPasswordInput.focus();
-        return;
+        document.getElementById("confirmPasswordError").innerText = "Passwords do not match.";
+        confirmPasswordInput.classList.add("input-error");
+        hasError = true;
       }
 
       const currentDate = new Date();
@@ -245,10 +260,13 @@
       }
 
       if (age < 18) {
-        e.preventDefault();
-        alert("You must be at least 18 years old to register.");
-        dobInput.focus();
-        return;
+        document.getElementById("dobError").innerText = "You must be at least 18 years old.";
+        dobInput.classList.add("input-error");
+        hasError = true;
+      }
+
+      if (!hasError) {
+        this.submit(); // if no errors, submit the form
       }
     });
   </script>
