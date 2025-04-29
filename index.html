@@ -19,22 +19,23 @@
       background-color: DodgerBlue;
       width: 550px;
       height: 730px;
-      border: 5px solid DodgerBlue;
+      border: 3px solid DodgerBlue;
     }
+
     .left-column {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #99b7c9;
-  width: 245px;
-  height: 680px;
-  padding: 25px;
-  text-align: left; 
-  font-size: 30px;
-  margin-right: 5px;
-  overflow-y: auto; 
-}
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: #99b7c9;
+      width: 245px;
+      height: 680px;
+      padding: 25px;
+      text-align: left; 
+      font-size: 30px;
+      margin-right: 5px;
+      overflow-y: auto; 
+    }
 
     .left-column input[type="checkbox"] {
       display: inline-block;
@@ -51,7 +52,7 @@
     .left-column input,
     .left-column select,
     .left-column textarea {
-      width: 115%;
+      width: 120%;
       margin: 5px 0;
       padding: 5px;
       box-sizing: border-box;
@@ -64,21 +65,25 @@
       width: 245px;
       background-color: DodgerBlue;
       justify-content: space-between;
+      box-sizing: border-box;
     }
 
     .right-column > div:first-child {
-      background-color: #f1f1f1;
-      height: 70%;
+      background-color: #6e6662;
+      height: 20%;
       padding: 25px;
       margin-bottom: 5px;
-      flex-grow: 2;
+      flex-grow:2;
     }
 
     .right-column > div:last-child {
-      background-color: #f1f1f1;
-      height: 30%;
+      background-color: #0b0a0a;
+      height: 80%;
       padding: 5px;
       flex-grow: 1;
+      display: flex;           
+      justify-content: center; 
+      align-items: center;     
     }
 
     .submit-btn {
@@ -104,6 +109,24 @@
 
     .input-error {
       border: 2px solid red;
+    }
+
+    #tab1 {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-collapse: collapse;
+    }
+
+    #tab1 th, #tab1 td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    #tab1 thead {
+      background-color: #6e6662;
+      color: white;
     }
   </style>
 </head>
@@ -181,8 +204,72 @@
     </div>
 
     <div class="right-column">
-      <div></div>
-      <div></div>
+      <div class="right-column > div:first-child">
+        <form>
+          <h5>LOGIN</h5>
+          <label for="email">User Name:</label>
+          <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@student\.aiub\.edu" placeholder="id@student.aiub.edu">
+  
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required placeholder="8-character password">
+        </form>
+      </div>
+      <div class="right-column > div:last-child">
+        <table id="tab1">
+          <thead>
+              <tr>
+                  <th>City</th>
+                  <th>AQI</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td></td>
+              </tr>
+          </tbody>
+      </table>
+      </div>
     </div>
   </div>
 
@@ -196,9 +283,8 @@
     }
 
     document.querySelector("form").addEventListener("submit", function (e) {
-      e.preventDefault(); // prevent form submit by default
+      e.preventDefault(); 
 
-      // Reset previous errors
       document.querySelectorAll(".error-message").forEach(p => p.innerText = "");
       document.querySelectorAll("input, select, textarea").forEach(input => input.classList.remove("input-error"));
 
@@ -266,7 +352,7 @@
       }
 
       if (!hasError) {
-        this.submit(); // if no errors, submit the form
+        this.submit(); 
       }
     });
   </script>
