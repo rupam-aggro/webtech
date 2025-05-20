@@ -1,112 +1,70 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['selected_cities']) || count($_SESSION['selected_cities']) !== 10) {
+    header("Location: request.php");
+    exit();
+}
+
+$host = "localhost";
+$db = "aqi";
+$user = "root";
+$pass = "";
+
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$selectedCities = $_SESSION['selected_cities'];
+$placeholders = rtrim(str_repeat('?,', count($selectedCities)), ',');
+$sql = "SELECT city, country, aqi FROM info WHERE city IN ($placeholders)";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param(str_repeat('s', count($selectedCities)), ...$selectedCities);
+$stmt->execute();
+$result = $stmt->get_result();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Select Cities</title>
+    <title>Selected City Info</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        .form-container {
-            background: #fff;
-            max-width: 400px;
-            margin: auto;
-            padding: 25px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .city-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .city-option:last-child {
-            border-bottom: none;
-        }
-
-        input[type="submit"] {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        input[type="submit"]:hover {
-            background: #0056b3;
-        }
-
-        ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-
-        .results {
-            max-width: 400px;
-            margin: 20px auto;
-            background: #e8f0fe;
-            padding: 15px 20px;
-            border-radius: 6px;
-            border-left: 5px solid #007bff;
-        }
+        body { font-family: Arial; background: #f4f6f8; padding: 20px; }
+        table { width: 60%; margin: auto; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
+        th { background: #007bff; color: white; }
+        h2 { text-align: center; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2>Select Your Favorite Cities</h2>
+<h2>Air Quality Index (AQI) for Selected Cities</h2>
 
-    <form action="" method="post">
-        <?php
-        $cities = [
-            "New York", "London", "Paris", "Tokyo", "Sydney",
-            "Dubai", "Toronto", "Berlin", "Rome", "Bangkok",
-            "Istanbul", "Barcelona", "Los Angeles", "Chicago", "Singapore",
-            "Amsterdam", "Seoul", "Moscow", "Mumbai", "Cairo"
-        ];
+<table>
+    <tr>
+        <th>City</th>
+        <th>Country</th>
+        <th>AQI</th>
+    </tr>
 
-        foreach ($cities as $city) {
-            echo '<div class="city-option">';
-            echo '<span>' . htmlspecialchars($city) . '</span>';
-            echo '<input type="checkbox" name="cities[]" value="' . htmlspecialchars($city) . '">';
-            echo '</div>';
+    <?php
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>
+                    <td>" . htmlspecialchars($row['city']) . "</td>
+                    <td>" . htmlspecialchars($row['country']) . "</td>
+                    <td>" . htmlspecialchars($row['aqi']) . "</td>
+                  </tr>";
         }
-        ?>
-
-        <input type="submit" name="submit" value="Submit">
-    </form>
-</div>
-
-<?php
-if (isset($_POST['submit'])) {
-    echo '<div class="results">';
-    if (!empty($_POST['cities'])) {
-        echo "<h3>You selected:</h3><ul>";
-        foreach ($_POST['cities'] as $selectedCity) {
-            echo "<li>" . htmlspecialchars($selectedCity) . "</li>";
-        }
-        echo "</ul>";
     } else {
-        echo "<p><strong>No cities selected.</strong></p>";
+        echo "<tr><td colspan='3'>No data found.</td></tr>";
     }
-    echo '</div>';
-}
-?>
+    $stmt->close();
+    $conn->close();
+    ?>
+</table>
 
 </body>
 </html>
