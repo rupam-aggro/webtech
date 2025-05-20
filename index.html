@@ -1,3 +1,43 @@
+<?php
+session_start();
+
+if (isset($_SESSION["email"])) {
+    header("refresh: 0.5; url = request.php");
+    exit();
+}
+
+if (isset($_POST["submit"])) {
+    $email = $_POST["email"];
+    $pass = $_POST["pass"];
+
+    $conn = mysqli_connect('localhost', 'root', '', 'aqi');
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT * FROM records WHERE email = '$email' AND password = '$pass'";
+    $result = mysqli_query($conn, $sql);
+    $count = mysqli_num_rows($result);
+
+    if ($count == 1) {
+        $_SESSION["email"] = $email;
+
+        echo "You are now redirected";
+        header("refresh: 2; url = request.php");
+        exit();
+    } else {
+        echo "User not found";
+        header("refresh: 2; url = index.php");
+        exit();
+    }
+} else {
+    echo "Fill the email and password." . "<br>";
+    header("refresh: 2; url = index.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -170,7 +210,7 @@
 
   <div class="flex-container">
     <div class="left-column">
-      <form id="registrationForm">
+      <form id="registrationForm" action="process.php" method="post">
         <h5>Registration Form</h5>
 
         <label for="fullName">Full Name:</label>
@@ -239,7 +279,7 @@
     <div class="right-column">
       <!-- Login Form -->
       <div style="background-color: #6e6662; padding: 15px; display: flex; flex-direction: column; align-items: flex-start;">
-        <form id="loginForm">
+        <form id="loginForm" action="request.php" method="post">
           <h4 style="margin: 0 0 10px; color: white;">LOGIN</h4>
 
           <label for="loginEmail" style="color: white;">User Name:</label>
