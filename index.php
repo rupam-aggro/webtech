@@ -1,42 +1,38 @@
 <?php
 session_start();
+if (isset($_POST['submit'])) {
+    $conn = new mysqli("localhost", "root", "", "aqi");
 
-if (isset($_SESSION["email"])) {
-    header("refresh: 0.5; url = request.php");
-    exit();
-}
-
-if (isset($_POST["submit"])) {
-    $email = $_POST["email"];
-    $pass = $_POST["pass"];
-
-    $conn = mysqli_connect('localhost', 'root', '', 'aqi');
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM records WHERE email = '$email' AND password = '$pass'";
-    $result = mysqli_query($conn, $sql);
-    $count = mysqli_num_rows($result);
+    $email = $_POST['email'];
+    $password = $_POST['pass'];
 
-    if ($count == 1) {
-        $_SESSION["email"] = $email;
+   $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
-        echo "You are now redirected";
-        header("refresh: 2; url = request.php");
+if ($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    if (password_verify($password, $row['password'])) {
+        $_SESSION['email'] = $email;
+        header("Location: request.php");
         exit();
     } else {
-        echo "User not found";
-        header("refresh: 2; url = index.php");
-        exit();
+        echo "<script>alert('❌ Invalid password!');</script>";
     }
 } else {
-    echo "Fill the email and password." . "<br>";
-    header("refresh: 2; url = index.php");
-    exit();
+    echo "<script>alert('❌ Email not found!');</script>";
 }
+}
+
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -205,6 +201,7 @@ if (isset($_POST["submit"])) {
 </head>
 
 <body>
+
   <img src="Screenshot 2025-03-23 043535.png" alt="Logo" style="width:50px;height:50px;border-radius:50%;margin-bottom:0px;">
   <h1>Netbook</h1>
 
@@ -279,17 +276,18 @@ if (isset($_POST["submit"])) {
     <div class="right-column">
       <!-- Login Form -->
       <div style="background-color: #6e6662; padding: 15px; display: flex; flex-direction: column; align-items: flex-start;">
-        <form id="loginForm" action="request.php" method="post">
-          <h4 style="margin: 0 0 10px; color: white;">LOGIN</h4>
+        <form id="loginForm" action="index.php" method="post">
+  <h4 style="margin: 0 0 10px; color: white;">LOGIN</h4>
 
-          <label for="loginEmail" style="color: white;">User Name:</label>
-          <input type="email" id="loginEmail" name="loginEmail" required placeholder="id@student.aiub.edu" style="width: 100%; margin-bottom: 10px;">
+  <label for="loginEmail" style="color: white;">User Name:</label>
+  <input type="email" id="loginEmail" name="email" required placeholder="id@student.aiub.edu" style="width: 100%; margin-bottom: 10px;">
 
-          <label for="loginPassword" style="color: white;">Password:</label>
-          <input type="password" id="loginPassword" name="loginPassword" required placeholder="8-character password" style="width: 100%; margin-bottom: 10px;">
+  <label for="loginPassword" style="color: white;">Password:</label>
+  <input type="password" id="loginPassword" name="pass" required placeholder="8-character password" style="width: 100%; margin-bottom: 10px;">
 
-          <button type="submit" class="submit-btn" style="width: 100%; height:25px;">Login</button>
-        </form>
+  <button type="submit" class="submit-btn" name="submit" style="width: 100%; height:25px;">Login</button>
+</form>
+
       </div>
 
  
@@ -325,11 +323,7 @@ if (isset($_POST["submit"])) {
       confirmPassword.type = type;
     }
 
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      document.getElementById("aqiTableSection").style.opacity = "1";
-      document.getElementById("loginOverlay").style.display = "none";
-    });
+    
 
     document.getElementById("registrationForm").addEventListener("submit", function (e) {
       e.preventDefault();
