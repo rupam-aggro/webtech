@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 $cities = [
     "New York", "London", "Paris", "Tokyo", "Sydney",
@@ -32,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .error { color: red; font-weight: bold; margin-top: 10px; }
     </style>
     <script>
+        // Optional JS: limit selection to 10
         document.addEventListener('DOMContentLoaded', function () {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
