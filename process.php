@@ -11,8 +11,10 @@ $password = $_POST['password'] ?? '';
 $dob = $_POST['dob'] ?? '';
 $gender = $_POST['gender'] ?? '';
 $country = $_POST['country'] ?? '';
+$color = $_POST['color'] ??'';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'])) {
+    setcookie("color", $color, time() + 24*60*60,'/');
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     $conn = new mysqli("localhost", "root", "", "aqi");
@@ -123,6 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm'])) {
             <input type="hidden" name="dob" value="<?php echo htmlspecialchars($dob); ?>">
             <input type="hidden" name="gender" value="<?php echo htmlspecialchars($gender); ?>">
             <input type="hidden" name="country" value="<?php echo htmlspecialchars($country); ?>">
+            <input type="hidden" name="color" value="<?php echo htmlspecialchars($color); ?>">
 
             <div class="buttons">
                 <button type="submit" name="cancel" class="cancel">Cancel</button>
