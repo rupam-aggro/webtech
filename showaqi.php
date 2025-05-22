@@ -6,6 +6,7 @@ if (!isset($_SESSION['selected_cities']) || count($_SESSION['selected_cities']) 
     exit();
 }
 
+$bgColor = isset($_COOKIE['color']) ? htmlspecialchars($_COOKIE['color']) : '#f4f6f8';
 $host = "localhost";
 $db = "aqi";
 $user = "root";
@@ -31,7 +32,7 @@ $result = $stmt->get_result();
 <head>
     <title>Selected City Info</title>
     <style>
-        body { font-family: Arial; background: #f4f6f8; padding: 20px; }
+        body { font-family: Arial; background: <?= $bgColor ?>; padding: 20px; }
         table { width: 60%; margin: auto; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
         th { background: #007bff; color: white; }
