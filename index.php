@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (isset($_POST['submit'])) {
     $conn = new mysqli("localhost", "root", "", "aqi");
 
@@ -10,26 +11,31 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['pass'];
 
-   $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
-    if (password_verify($password, $row['password'])) {
-        $_SESSION['email'] = $email;
-        header("Location: request.php");
-        exit();
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password'])) {
+            $_SESSION['email'] = $email;
+            echo "<div style='color: green; font-weight: bold; text-align: center; margin-top: 20px;'>You are logged in <br> Welcome!</div>";
+            header("refresh:2;url=request.php");
+            exit();
+        } else {
+            echo "<div style='color: red; font-weight: bold; text-align: center; margin-top: 20px;'>❌ Invalid password! <br> You are redirected to the LogIn page. </div>";
+            header("refresh:2;url=index.php");
+            exit();
+        }
     } else {
-        echo "<script>alert('❌ Invalid password!');</script>";
+        echo "<div style='color: red; font-weight: bold; text-align: center; margin-top: 20px;'>❌ Email not found!</div>";
+        header("refresh:3;url=index.php");
+        exit();
     }
-} else {
-    echo "<script>alert('❌ Email not found!');</script>";
 }
-}
-
 ?>
+
 
 
 
