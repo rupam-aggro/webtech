@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['selected_cities']) || count($_SESSION['selected_cities']) !== 10) {
+if (!isset($_SESSION['selected_cities']) || count($_SESSION['selected_cities']) < 1 || count($_SESSION['selected_cities']) > 10) {
     header("Location: request.php");
     exit();
 }
@@ -32,11 +32,50 @@ $result = $stmt->get_result();
 <head>
     <title>Selected City Info</title>
     <style>
-        body { font-family: Arial; background: <?= $bgColor ?>; padding: 20px; }
-        table { width: 60%; margin: auto; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
-        th { background: #007bff; color: white; }
-        h2 { text-align: center; margin-bottom: 20px; }
+        body {
+            font-family: Arial;
+            background: <?= $bgColor ?>;
+            padding: 20px;
+        }
+        table {
+            width: 60%;
+            margin: auto;
+            border-collapse: collapse;
+            background: #fff;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logout-container {
+            width: 60%;
+            margin: 20px auto 0;
+            text-align: center;
+        }
+        .logout-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .logout-button:hover {
+            background: #a71d2a;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +105,12 @@ $result = $stmt->get_result();
     $conn->close();
     ?>
 </table>
+
+<div class="logout-container">
+    <form action="index.php" method="post">
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</div>
 
 </body>
 </html>
