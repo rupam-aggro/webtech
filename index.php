@@ -44,6 +44,7 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 <head>
   <title>Registration Form</title>
+</script> 
   <style>
     body {
       display: flex;
